@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "purescript": "^0.14.1",
+    "spago": "^0.20.0"
+  }
 }
