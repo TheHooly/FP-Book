@@ -9,50 +9,90 @@ import Data.Maybe (Maybe(..))
 
 test :: Effect Unit
 test = do
+  log "Chapter 5"
+  log ""
+
+  log "5.4 flip, 5.5 const"
   log $ show $ flip const 1 2
+  log ""
 
+  log "5.11 singleton"
   log $ show $ singleton "xyz"
+  log ""
 
+  log "5.12 null"
   log $ show $ null Nil
   log $ show $ null ("abc" : Nil)
+  log ""
 
+  log "5.13 snoc"
   log $ show $ snoc (1 : 2 : Nil) 3
+  log ""
 
+  log "5.14 length"
   log $ show $ length (1 : 2 : 3 : Nil)
+  log ""
 
+  log "5.16 head"
   log $ show $ (head Nil :: Maybe Unit)
   log $ show $ head ("abc" : "123" : Nil)
+  log ""
 
+  log "5.17 tail"
   log $ show $ (tail Nil :: Maybe (List Unit))
   log $ show $ tail ("abc" : "123" : Nil)
+  log ""
 
+  log "5.18 last"
   log $ show $ (last Nil :: Maybe Unit)
   log $ show $ last ("a" : "b" : "c" : Nil)
+  log ""
 
+  log "5.19 init"
   log $ show $ init (Nil :: List Unit)
   log $ show $ init (1 : Nil)
   log $ show $ init (1 : 2 : Nil)
   log $ show $ init (1 : 2 : 3 : Nil)
+  log ""
 
+  log "5.20 uncons"
   log $ show $ uncons (1 : 2 : 3 : Nil)
+  log ""
 
+  log "5.21 index"
   log $ show $ index (1 : Nil) 4
   log $ show $ index (1 : 2 : 3 : Nil) 1
   log $ show $ index (Nil :: List Unit) 0
+  log ""
 
+  log "5.22 !!"
   log $ show $ (1 : 2 : 3 : Nil) !! 1
+  log ""
 
+  log "5.23 findIndex"
+  log $ show $ findIndex (_ >= 2) (1 : 2 : 3 : Nil)
+  log $ show $ findIndex (_ >= 99) (1 : 2 : 3 : Nil)
+  log $ show $ findIndex (10 /= _) (Nil :: List Int)
+  log ""
+
+  log "5.24 findLastIndex"
   log $ show $ findLastIndex (_ == 10) (Nil :: List Int)
   log $ show $ findLastIndex (_ == 10) (10 : 5 : 10 : -1 : 2 : 10 : Nil)
   log $ show $ findLastIndex (_ == 10) (11 : 12 : Nil)
+  log ""
 
+  log "5.26 reverse"
   log $ show $ reverse (10 : 20 : 30 : Nil)
+  log ""
 
+  log "5.27 concat"
   log $ show $
     concat ((1 : 2 : 3 : Nil) : (4 : 5 : Nil) : (6 : Nil) : (Nil) : Nil)
+  log ""
 
+  log "5.28 filter"
   log $ show $ filter (4 > _) $ (1 : 2 : 3 : 4 : 5 : 6 : Nil)
-
+  log ""
 
 flip :: forall a b c. (a -> b -> c) -> b -> a -> c
 flip f x y = f y x
