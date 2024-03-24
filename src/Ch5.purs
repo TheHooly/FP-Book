@@ -1,13 +1,11 @@
 module Ch5 where
 
-import Prelude (Unit, (+), negate, show, discard)
+import Prelude (Unit, (+), (-), (==), (>), (<), (>=), (/=), (<<<), negate, show, discard, otherwise, type (~>))
 
 import Data.List (List(..), (:))
 import Effect (Effect)
 import Effect.Console (log)
 import Data.Maybe (Maybe(..))
-import Data.Ring ((-))
-import Data.Eq ((==))
 
 test :: Effect Unit
 test = do
@@ -47,6 +45,13 @@ test = do
   log $ show $ findLastIndex (_ == 10) (Nil :: List Int)
   log $ show $ findLastIndex (_ == 10) (10 : 5 : 10 : -1 : 2 : 10 : Nil)
   log $ show $ findLastIndex (_ == 10) (11 : 12 : Nil)
+
+  log $ show $ reverse (10 : 20 : 30 : Nil)
+
+  log $ show $
+    concat ((1 : 2 : 3 : Nil) : (4 : 5 : Nil) : (6 : Nil) : (Nil) : Nil)
+
+  log $ show $ filter (4 > _) $ (1 : 2 : 3 : 4 : 5 : 6 : Nil)
 
 
 flip :: forall a b c. (a -> b -> c) -> b -> a -> c
@@ -122,3 +127,19 @@ findLastIndex :: forall a. (a -> Boolean) -> List a -> Maybe Int
 findLastIndex pred l = go Nothing 0 l where
   go fi _ Nil = fi
   go fi i (x : xs) = go (if pred x then Just i else fi) (i + 1) xs
+
+reverse :: List ~> List
+reverse Nil = Nil
+reverse ol = go Nil ol where
+  go rl Nil = rl
+  go rl (x : xs) = go (x : rl) xs
+
+concat :: forall a. List (List a) -> List a
+concat Nil = Nil
+concat (Nil : xss) = concat xss
+concat ((x : xs) : xss) = x : concat (xs : xss)
+
+filter :: forall a. (a -> Boolean) -> List a -> List a
+filter pred = reverse <<< go Nil where
+  go nl Nil = nl
+  go nl (x : xs) = go (if pred x then x : nl else nl) xs
