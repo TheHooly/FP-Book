@@ -94,52 +94,64 @@ test = do
   log $ show $ filter (4 > _) $ (1 : 2 : 3 : 4 : 5 : 6 : Nil)
   log ""
 
+-- 5.4
 flip :: forall a b c. (a -> b -> c) -> b -> a -> c
 flip f x y = f y x
 
+-- 5.5
 const :: forall a b. a -> b -> a
 const x _ = x
 
+-- 5.7
 apply :: forall a b. (a -> b) -> a -> b
 apply f x = f x
 
 infixr 0 apply as $
 
+-- 5.8
 applyFlipped :: forall a b. a -> (a -> b) -> b
 applyFlipped = flip apply
 
 infixl 1 applyFlipped as #
 
+-- 5.11
 singleton :: forall a. a -> List a
 singleton x = x : Nil
 
+-- 5.12
 null :: forall a. List a -> Boolean
 null Nil = true
 null _ = false
 
+-- 5.13
 snoc :: forall a. List a -> a -> List a
 snoc Nil x = singleton x
 snoc (y : ys) x = y : snoc ys x
 
+-- 5.14
 length :: forall a. List a -> Int
 length l = go 0 l where
   go :: Int -> List a -> Int
   go acc Nil = acc
   go acc (_ : xs) = go (acc + 1) xs
 
+-- 5.16
 head :: forall a. List a -> Maybe a
 head Nil = Nothing
 head (x : _) = Just x
 
+-- 5.17
 tail :: forall a. List a -> Maybe (List a)
 tail Nil = Nothing
 tail (_ : xs) = Just xs
 
+-- 5.18
 last :: forall a. List a -> Maybe a
 last Nil = Nothing
 last (x : Nil) = Just x
 last (_ : xs) = last xs
 
+-- 5.19
 init :: forall a. List a -> Maybe (List a)
 init Nil = Nothing
 init l = Just $ go l where
@@ -147,38 +159,46 @@ init l = Just $ go l where
   go (_ : Nil) = Nil
   go (x : xs) = x : go xs
 
+-- 5.20
 uncons :: forall a. List a -> Maybe { head :: a, tail :: List a }
 uncons Nil = Nothing
 uncons (x : xs) = Just { head : x, tail : xs }
 
+-- 5.21
 index :: forall a. List a -> Int -> Maybe a
 index Nil _ = Nothing
 index (x : _) 0 = Just x
 index (_ : xs) i = index xs (i - 1)
 
+-- 5.22
 infixl 8 index as !!
 
+-- 5.23
 findIndex :: forall a. (a -> Boolean) -> List a -> Maybe Int
 findIndex pred l = go 0 l where
   go _ Nil = Nothing
   go i (x : xs) = if pred x then Just i else go (i + 1) xs
 
+-- 5.24
 findLastIndex :: forall a. (a -> Boolean) -> List a -> Maybe Int
 findLastIndex pred l = go Nothing 0 l where
   go fi _ Nil = fi
   go fi i (x : xs) = go (if pred x then Just i else fi) (i + 1) xs
 
+-- 5.26
 reverse :: List ~> List
 reverse Nil = Nil
 reverse ol = go Nil ol where
   go rl Nil = rl
   go rl (x : xs) = go (x : rl) xs
 
+-- 5.27
 concat :: forall a. List (List a) -> List a
 concat Nil = Nil
 concat (Nil : xss) = concat xss
 concat ((x : xs) : xss) = x : concat (xs : xss)
 
+-- 5.28
 filter :: forall a. (a -> Boolean) -> List a -> List a
 filter pred = reverse <<< go Nil where
   go nl Nil = nl
