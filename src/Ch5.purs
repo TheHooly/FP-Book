@@ -1,11 +1,12 @@
 module Ch5 where
 
-import Prelude (Unit, (+), (-), (==), (>), (<), (>=), (/=), (<<<), negate, show, discard, otherwise, type (~>))
-
 import Data.List (List(..), (:))
+import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
-import Data.Maybe (Maybe(..))
+import Prelude (type (~>), Unit, discard, negate, otherwise, show, max, (+), (-), (/=), (<), (<<<), (>>>), (==), (>), (>=))
+import Prim.RowList (Nil)
+import Data.Tuple(Tuple(..), snd)
 
 test :: Effect Unit
 test = do
@@ -93,6 +94,36 @@ test = do
   log "5.28 filter"
   log $ show $ filter (4 > _) $ (1 : 2 : 3 : 4 : 5 : 6 : Nil)
   log ""
+
+  log "5.30 catMaybes"
+  log $ show $ catMaybes (Just 1 : Nothing : Just 2 : Nothing : Nothing : Just 5 : Nil)
+  log ""
+
+  log "5.32 range"
+  log $ show $ range 1 10
+  log $ show $ range 3 (-3)
+  log ""
+
+  log "5.34 take"
+  log $ show $ take 5 (12 : 13 : 14 : Nil)
+  log $ show $ take 5 (-7 : 9 : 0 : 12 : -13 : 45 : 976 : -19 : Nil)
+  log ""
+
+  log "5.35 drop"
+  log $ show $ drop 2 (1 : 2 : 3 : 4 : 5 : 6 : 7 : Nil)
+  log $ show $ drop 10 (Nil :: List Unit)
+  log ""
+
+  log "5.36 takeWhile"
+  log $ show $ takeWhile (_ > 3) (5 : 4 : 3 : 99 : 101 : Nil)
+  log $ show $ takeWhile (_ == -17) (1 : 2 : 3 : Nil)
+  log ""
+
+  log "5.37 dropWhile"
+  log $ show $ dropWhile (_ > 3) (5 : 4 : 3 : 99 : 101 : Nil)
+  log $ show $ dropWhile (_ == -17) (1 : 2 : 3 : Nil)
+  log ""
+
 
 -- 5.4
 flip :: forall a b c. (a -> b -> c) -> b -> a -> c
@@ -198,8 +229,53 @@ concat Nil = Nil
 concat (Nil : xss) = concat xss
 concat ((x : xs) : xss) = x : concat (xs : xss)
 
--- 5.28
+-- 5.28, 5.29
 filter :: forall a. (a -> Boolean) -> List a -> List a
 filter pred = reverse <<< go Nil where
   go nl Nil = nl
   go nl (x : xs) = go (if pred x then x : nl else nl) xs
+
+-- 5.30
+catMaybes :: forall a. List (Maybe a) -> List a
+catMaybes Nil = Nil
+catMaybes (x : xs) = case x of
+  Just y  -> y : catMaybes xs
+  Nothing -> catMaybes xs
+
+-- 5.32
+range :: Int -> Int -> List Int
+range start end | start == end  = singleton start
+                | otherwise     = 
+                    start : range (start + (if start < end then 1 else (-1))) end
+
+-- 5.33, 5.34
+take :: forall a. Int -> List a -> List a
+--take _ Nil = Nil
+--take 0 _ = Nil
+--take n (x : xs) = x : take (n - 1) xs
+take n = reverse <<< go Nil (max 0 n) where
+  go nl _ Nil   = nl
+  go nl 0 _     = nl
+  go nl n' (x : xs) = go (x : nl) (n' - 1) xs
+
+-- 5.35
+drop :: forall a. Int -> List a -> List a
+drop _ Nil = Nil
+drop 0 l = l
+drop n (_ : xs) = drop (n - 1) xs
+
+--5.36
+takeWhile :: forall a. (a -> Boolean) -> List a -> List a
+takeWhile _ Nil = Nil
+takeWhile pred (x : xs) = if pred x then x : takeWhile pred xs else Nil
+
+-- 5.37
+dropWhile :: forall a. (a -> Boolean) -> List a -> List a
+dropWhile _ Nil = Nil
+dropWhile pred (x : xs) = if pred x then dropWhile pred xs else xs
+
+takeEnd :: forall a. Int -> List a -> List a
+takeEnd n = go >>> snd where
+  go Nil = Tuple 0 Nil
+  go (x : xs) = go xs
+    # \(Tuple c nl) -> Tuple (c + 1) $ if c > n then x : nl else nl
