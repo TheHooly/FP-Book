@@ -5,7 +5,7 @@ import Data.Maybe(Maybe(..))
 import Data.Either (Either(..))
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
-import Data.String.CodeUnits (uncons)
+import Data.String.CodeUnits (uncons, fromCharArray)
 import Data.Tuple (Tuple(..))
 import Effect (Effect)
 import Effect.Console (log)
@@ -13,7 +13,9 @@ import Effect.Console (log)
 
 test :: Effect Unit
 test = do
-  log ""
+  log $ show $ parse' char "ABC"
+  log $ show $ parse' twoChars "ABC"
+  log $ show $ parse' threeChars "ABC"
 
 type ParserState a = Tuple String a
 class ParserError (e :: Type) where
@@ -27,8 +29,6 @@ instance functorParser :: Functor (Parser e) where
   map f (Parser g) = Parser \s -> map f <$> g s
 
 instance applyParser :: Apply (Parser e) where
---  Parser f :: Parser e (a -> b)
---  Parser g :: Parser e (a)
   apply :: ∀ a b. Parser e (a -> b) -> Parser e a -> Parser e b
   apply p1 p2 = Parser \s -> case parse p1 s of
     Left err -> Left err
@@ -41,6 +41,9 @@ instance applicativeParser :: Applicative (Parser e) where
 
 parse :: ∀ e a. Parser e a -> ParseFunction e a
 parse (Parser p) = p
+
+parse' :: ∀ e a. Parser PError a -> ParseFunction PError a
+parse' (Parser p) = p
 
 char :: ∀ e. Parser e Char
 char = Parser \s -> case uncons s of
@@ -57,3 +60,8 @@ instance parserErrorPError :: ParserError PError where
 
 twoChars :: ∀ e. Parser e (Tuple Char Char)
 twoChars = Tuple <$> char <*> char
+
+threeChars :: ∀ e. Parser e String
+threeChars = 
+  (\c1 c2 c3 -> fromCharArray [c1, c2, c3]) <$> char <*> char <*> char
+
