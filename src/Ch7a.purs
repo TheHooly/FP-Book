@@ -12,6 +12,8 @@ data Maybe a = Nothing | Just a
 test :: Effect Unit
 test = do
   log "-- Chapter 7a"
+  log ""
+  
   log $ "eqMaybe"
   log $ show $ Just 5 == Just 5
   log $ show $ Just 5 == Just 2

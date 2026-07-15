@@ -11,6 +11,7 @@ test :: Effect Unit
 test = do
   log "-- Chapter 9"
   log ""
+  
   log "andBoolSemigroup"
   log $ show $ ATrue <> ATrue
   log $ show $ ATrue <> AFalse

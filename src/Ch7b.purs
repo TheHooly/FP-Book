@@ -15,6 +15,7 @@ test :: Effect Unit
 test = do
   log "-- Chapter 7b"
   log ""
+  
   log "toCSV"
   log $ show $ toCSV
     (Person
@@ -31,7 +32,6 @@ test = do
     , occupation: Doctor
     })
   log $ show $ (toCSV person # fromCSV) == Just person
-
   log ""
   log ""
 

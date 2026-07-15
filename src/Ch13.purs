@@ -11,6 +11,7 @@ test :: Effect Unit
 test = do
   log "-- Chapter 13"
   log ""
+  
   log "functorMaybe"
   log $ show $ (_ / 2) <$> Just 10
   log $ show $ (_ / 2) <$> Nothing
