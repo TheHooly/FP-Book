@@ -11,7 +11,8 @@ data Maybe a = Nothing | Just a
 
 test :: Effect Unit
 test = do
-  log $ "-- 7.5 eqMaybe"
+  log "-- Chapter 7a"
+  log $ "eqMaybe"
   log $ show $ Just 5 == Just 5
   log $ show $ Just 5 == Just 2
   log $ show $ Just 5 == Nothing
@@ -19,7 +20,7 @@ test = do
   log $ show $ Nothing == (Nothing :: Maybe Unit)
   log $ ""
 
-  log $ "-- 7.6 ordMaybe"
+  log $ "ordMaybe"
   log $ show $ Just 1 < Just 5
   log $ show $ Just 5 <= Just 5
   log $ show $ Just 5 > Just 10
@@ -27,8 +28,7 @@ test = do
   log $ show $ Just 99 > Nothing
   log $ show $ Just 99 < Nothing
   log ""
-
-
+  log ""
 
 instance eqMaybe :: Eq a => Eq (Maybe a) where
   eq Nothing Nothing = true

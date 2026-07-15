@@ -12,7 +12,6 @@ import Prelude ((+), (<>), (<<<), discard, negate, class Ord, type (~>), Unit, s
 
 test :: Effect Unit
 test = do
-  log ""
   log "-- Chapter 11"
   log ""
   log "fold reverse"
@@ -32,6 +31,7 @@ test = do
   log "foldable Tree"
   log $ show $ sum
     (Node (Node (Leaf 5) (Node (Leaf (-1)) (Leaf 14))) (Leaf 99))
+  log ""
   log ""
 
 reverse :: List ~> List

@@ -12,140 +12,141 @@ test = do
   log "-- Chapter 5"
   log ""
 
-  log "-- 5.4 flip, 5.5 const"
+  log "flip, const"
   log $ show $ flip const 1 2
   log ""
 
-  log "-- 5.11 singleton"
+  log "singleton"
   log $ show $ singleton "xyz"
   log ""
 
-  log "-- 5.12 null"
+  log "null"
   log $ show $ null Nil
   log $ show $ null ("abc" : Nil)
   log ""
 
-  log " -- 5.13 snoc"
+  log "snoc"
   log $ show $ snoc (1 : 2 : Nil) 3
   log ""
 
-  log "-- 5.14 length"
+  log "length"
   log $ show $ length (1 : 2 : 3 : Nil)
   log ""
 
-  log "-- 5.16 head"
+  log "head"
   log $ show $ (head Nil :: Maybe Unit)
   log $ show $ head ("abc" : "123" : Nil)
   log ""
 
-  log "-- 5.17 tail"
+  log "tail"
   log $ show $ (tail Nil :: Maybe (List Unit))
   log $ show $ tail ("abc" : "123" : Nil)
   log ""
 
-  log "-- 5.18 last"
+  log "last"
   log $ show $ (last Nil :: Maybe Unit)
   log $ show $ last ("a" : "b" : "c" : Nil)
   log ""
 
-  log "-- 5.19 init"
+  log "init"
   log $ show $ init (Nil :: List Unit)
   log $ show $ init (1 : Nil)
   log $ show $ init (1 : 2 : Nil)
   log $ show $ init (1 : 2 : 3 : Nil)
   log ""
 
-  log "-- 5.20 uncons"
+  log "uncons"
   log $ show $ uncons (1 : 2 : 3 : Nil)
   log ""
 
-  log "-- 5.21 index"
+  log "index"
   log $ show $ index (1 : Nil) 4
   log $ show $ index (1 : 2 : 3 : Nil) 1
   log $ show $ index (Nil :: List Unit) 0
   log ""
 
-  log "-- 5.22 !!"
+  log "!!"
   log $ show $ (1 : 2 : 3 : Nil) !! 1
   log ""
 
-  log "-- 5.23 findIndex"
+  log "findIndex"
   log $ show $ findIndex (_ >= 2) (1 : 2 : 3 : Nil)
   log $ show $ findIndex (_ >= 99) (1 : 2 : 3 : Nil)
   log $ show $ findIndex (10 /= _) (Nil :: List Int)
   log ""
 
-  log "-- 5.24 findLastIndex"
+  log "findLastIndex"
   log $ show $ findLastIndex (_ == 10) (Nil :: List Int)
   log $ show $ findLastIndex (_ == 10) (10 : 5 : 10 : -1 : 2 : 10 : Nil)
   log $ show $ findLastIndex (_ == 10) (11 : 12 : Nil)
   log ""
 
-  log "-- 5.26 reverse"
+  log "reverse"
   log $ show $ reverse (10 : 20 : 30 : Nil)
   log ""
 
-  log "-- 5.27 concat"
+  log "concat"
   log $ show $
     concat ((1 : 2 : 3 : Nil) : (4 : 5 : Nil) : (6 : Nil) : (Nil) : Nil)
   log ""
 
-  log "-- 5.28 filter"
+  log "filter"
   log $ show $ filter (4 > _) $ (1 : 2 : 3 : 4 : 5 : 6 : Nil)
   log ""
 
-  log "-- 5.31 catMaybes"
+  log "catMaybes"
   log $ show $
     catMaybes (Just 1 : Nothing : Just 2 : Nothing : Nothing : Just 5 : Nil)
   log ""
 
-  log "-- 5.32 range"
+  log "range"
   log $ show $ range 1 10
   log $ show $ range 3 (-3)
   log ""
 
-  log "-- 5.34 take"
+  log "take"
   log $ show $ take 5 (12 : 13 : 14 : Nil)
   log $ show $ take 5 (-7 : 9 : 0 : 12 : -13 : 45 : 976 : -19 : Nil)
   log ""
 
-  log "-- 5.35 drop"
+  log "drop"
   log $ show $ drop 2 (1 : 2 : 3 : 4 : 5 : 6 : 7 : Nil)
   log $ show $ drop 10 (Nil :: List Unit)
   log ""
 
-  log "-- 5.36 takeWhile"
+  log "takeWhile"
   log $ show $ takeWhile (_ > 3) (5 : 4 : 3 : 99 : 101 : Nil)
   log $ show $ takeWhile (_ == -17) (1 : 2 : 3 : Nil)
   log ""
 
-  log "-- 5.37 dropWhile"
+  log "dropWhile"
   log $ show $ dropWhile (_ > 3) (5 : 4 : 3 : 99 : 101 : Nil)
   log $ show $ dropWhile (_ == -17) (1 : 2 : 3 : Nil) 
   log ""
 
-  log "-- 5.38 takeEnd"
+  log "takeEnd"
   log $ show $ takeEnd 3 (1 : 2 : 3 : 4 : 5 : 6 : Nil)
   log $ show $ takeEnd 10 (1 : Nil)
   log ""
 
-  log "-- 5.40 dropEnd"
+  log "dropEnd"
   log $ show $ dropEnd 3 (1 : 2 : 3 : 4 : 5 : 6 : Nil)
   log $ show $ dropEnd 10 (1 : Nil)
   log ""
 
-  log "-- 5.41 zip"
+  log "zip"
   log $ show $ zip (1 : 2 : 3 : Nil) ("a" : "b" : "c" : "d" : "e" : Nil)
   log $ show $ zip ("a" : "b" : "c" : "d" : "e" : Nil) (1 : 2 : 3 : Nil)
   log $ show $ zip (Nil :: List Unit) (1 : 2 : Nil)
   log ""
 
-  log "-- 5.42 unzip"
+  log "unzip"
   log $ show $ unzip (Tuple 1 "a" : Tuple 2 "b" : Tuple 3 "c" : Nil)
   log $ show $ unzip (Tuple "a" 1 : Tuple "b" 2 : Tuple "c" 3 : Nil)
   log $ show $ unzip (Nil :: List (Tuple Unit Unit))
   log ""
-
+  log ""
+  
 -- 5.4
 flip :: forall a b c. (a -> b -> c) -> b -> a -> c
 flip f x y = f y x

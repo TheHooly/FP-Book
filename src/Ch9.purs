@@ -9,46 +9,49 @@ import Prelude (class Eq, class Show, Unit, discard, show, ($), (&&), (==))
 
 test :: Effect Unit
 test = do
-  log "-- andBoolSemigroup"
+  log "-- Chapter 9"
+  log ""
+  log "andBoolSemigroup"
   log $ show $ ATrue <> ATrue
   log $ show $ ATrue <> AFalse
   log $ show $ AFalse <> AFalse
   log ""
 
-  log "-- andBoolMonoid"
+  log "andBoolMonoid"
   log $ show $ mempty <> ATrue == ATrue
   log $ show $ mempty <> AFalse == ATrue
   log ""
 
-  log "-- verifying AndBool Semigroup Laws (1 test)"
+  log "verifying AndBool Semigroup Laws (1 test)"
   log $ show $ (AFalse <> ATrue) <> ATrue == AFalse <> (ATrue <> ATrue)
   log ""
 
-  log "-- verifying AndBool Monoid Laws (2 tests)"
+  log "verifying AndBool Monoid Laws (2 tests)"
   log $ show $ mempty <> ATrue == ATrue <> mempty && ATrue <> mempty == ATrue
   log $ show $ mempty <> AFalse == AFalse <> mempty && AFalse <> mempty == AFalse
   log ""
 
-  log "-- verifying OrBool Semigroup Laws (1 test)"
+  log "verifying OrBool Semigroup Laws (1 test)"
   log $ show $ (OFalse <> OTrue) <> OTrue == OFalse <> (OTrue <> OTrue)
   log ""
 
-  log "-- verifying OrBool Monoid Laws (2 tests)"
+  log "verifying OrBool Monoid Laws (2 tests)"
   log $ show $ mempty <> OTrue == OTrue <> mempty && OTrue <> mempty == OTrue
   log $ show $ mempty <> OFalse == OFalse <> mempty && OFalse <> mempty == OFalse
   log ""
 
-  log "-- verifying Mod4 Semigroup Laws (1 test)"
+  log "verifying Mod4 Semigroup Laws (1 test)"
   log $ show $ (One <> Two) <> Three == One <> (Two <> Three)
   log ""
 
-  log "-- verifying Mod4 Monoid Laws (1 test)"
+  log "verifying Mod4 Monoid Laws (1 test)"
   log $ show $ mempty <> One == One <> mempty && One <> mempty == One
   log ""
 
-  log "-- First and Last"
+  log "First and Last"
   log $ show $ First Nothing <> First (Just 77)
   log $ show $ Last (Just 1) <> Last (Just 99)
+  log ""
   log ""
 
 

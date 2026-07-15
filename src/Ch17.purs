@@ -10,6 +10,8 @@ import Data.Bifunctor (class Bifunctor)
 test :: Effect Unit
 test = do
   log "-- Chapter 17"
+  log ""
+  
   log "applicativeMaybe"
   log $ show $ (+) <$> Just 21 <*> Just 21
   log $ show $ (*) <$> pure 2 <*> (pure 21 :: Maybe Int)
@@ -30,6 +32,7 @@ test = do
   -- LAW: Interchange
   -- u <*> pure x = pure (_ $ x) <*> u
   log $ show $ (pure negate <*> pure 1) == (pure (_ $ 1) <*> pure negate :: Either Unit Int)
+  log ""
   log ""
 
 -- 17.1 applicativeMaybe

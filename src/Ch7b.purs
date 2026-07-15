@@ -13,7 +13,9 @@ import Effect.Console (log)
 
 test :: Effect Unit
 test = do
-  log "-- 7.20-26 ToCSV"
+  log "-- Chapter 7b"
+  log ""
+  log "toCSV"
   log $ show $ toCSV
     (Person
       { name: FullName "Sue Smith"
@@ -22,7 +24,7 @@ test = do
       }) == CSV "Sue Smith,23,Doctor"
   log ""
 
-  log "-- 7.27- FromCSV"
+  log "fromCSV"
   let person = (Person 
     { name: FullName "Sue Smith"
     , age: Age 23
@@ -30,6 +32,7 @@ test = do
     })
   log $ show $ (toCSV person # fromCSV) == Just person
 
+  log ""
   log ""
 
 -- 7.20-26 ToCSV

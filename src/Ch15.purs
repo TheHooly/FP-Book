@@ -14,6 +14,8 @@ import Data.String (length)
 test :: Effect Unit
 test = do
   log "-- Chapter 15"
+  log ""
+  
   log "runPredicate"
   log $ show $ runPredicate (Predicate odd) $ 10
   log $ show $ runPredicate (Predicate odd) $ 11

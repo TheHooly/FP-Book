@@ -6,16 +6,33 @@ import Data.Either (Either(..))
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
 import Data.String.CodeUnits (uncons, fromCharArray)
+import Data.Traversable (class Traversable, sequence)
 import Data.Tuple (Tuple(..))
+import Data.Unfoldable (class Unfoldable, replicate)
+import Control.Plus (class Plus, empty)
 import Effect (Effect)
 import Effect.Console (log)
 
 
 test :: Effect Unit
 test = do
+  log "-- Parser"
+  log ""
+
+  log "parse char twoChars threeChars"
   log $ show $ parse' char "ABC"
   log $ show $ parse' twoChars "ABC"
   log $ show $ parse' threeChars "ABC"
+  log ""
+
+  log "parse threeChars too short"
+  log $ show $ parse' threeChars "A"
+  log ""
+
+  log "parse fromCharArray count"
+  log $ show $ parse' (fromCharArray <$> (count 3 char)) "xyz"
+  log ""
+  log ""
 
 type ParserState a = Tuple String a
 class ParserError (e :: Type) where
@@ -42,7 +59,7 @@ instance applicativeParser :: Applicative (Parser e) where
 parse :: ∀ e a. Parser e a -> ParseFunction e a
 parse (Parser p) = p
 
-parse' :: ∀ e a. Parser PError a -> ParseFunction PError a
+parse' :: ∀ a. Parser PError a -> ParseFunction PError a
 parse' (Parser p) = p
 
 char :: ∀ e. Parser e Char
@@ -65,3 +82,14 @@ threeChars :: ∀ e. Parser e String
 threeChars = 
   (\c1 c2 c3 -> fromCharArray [c1, c2, c3]) <$> char <*> char <*> char
 
+count 
+  :: ∀ e a f
+  . Plus f 
+  => Traversable f 
+  => Unfoldable f 
+  => Int 
+  -> Parser e a 
+  -> Parser e (f a)
+count n p
+  | n <= 0 = pure empty
+  | otherwise = sequence (replicate n p)
