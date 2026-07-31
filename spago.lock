@@ -12,7 +12,8 @@
             "maybe",
             "newtype",
             "prelude",
-            "strings"
+            "strings",
+            "unicode"
           ]
         },
         "test": {
@@ -1095,6 +1096,21 @@
         "partial",
         "prelude",
         "tuples"
+      ]
+    },
+    "unicode": {
+      "type": "registry",
+      "version": "6.0.0",
+      "integrity": "sha256-5KugCNyYxscmZpnMbssOQA96XimuBN/bjHpdrtd5qaY=",
+      "dependencies": [
+        "arrays",
+        "enums",
+        "integers",
+        "maybe",
+        "partial",
+        "prelude",
+        "strings",
+        "unsafe-coerce"
       ]
     },
     "unsafe-coerce": {

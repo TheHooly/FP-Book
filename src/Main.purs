@@ -13,6 +13,7 @@ import Ch13 as Ch13
 import Ch15 as Ch15
 import Ch17 as Ch17
 import Parser as Parser
+import Ch19 as Ch19
 
 main :: Effect Unit
 main = do
@@ -25,3 +26,4 @@ main = do
   Ch15.test
   Ch17.test
   Parser.test
+  Ch19.test
