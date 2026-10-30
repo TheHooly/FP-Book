@@ -15,5 +15,5 @@ package:
     dependencies: []
 workspace:
   packageSet:
-    registry: 77.11.1
+    registry: 81.11.0
   extraPackages: {}
